@@ -21,7 +21,7 @@ function App() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          px: 2, // Padding for small screens
+          px: 6, // Padding for small screens
         }}
       >
         <Stack
@@ -36,13 +36,20 @@ function App() {
             sx={{
               m: 1,
               width: '100%',
-              maxWidth: '250px', // Limit width on larger screens
+              maxWidth: '200px', // Limit width on larger screens
               alignSelf: 'center', // Center in the stack
             }}
           >
-                        <Typography variant="subtitle1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
               Kui suur su kodu on?
-            </Typography>
+            </Typography>       
+            <Box
+            sx={{
+              maxWidth: 100,
+              alignSelf: 'center'
+            }}
+            >
+               
             <Input
               id="standard-adornment-weight"
               endAdornment={<InputAdornment position="end">m2</InputAdornment>}
@@ -51,13 +58,11 @@ function App() {
                 'aria-label': 'weight',
               }}
             />
-            <FormHelperText id="standard-weight-helper-text">
-              
-            </FormHelperText>
+            </Box>
           </FormControl>
 
           <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', alignSelf: 'center' }}>
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography variant="subtitle1" gutterBottom sx={{mb: 4}}>
               Mis aastal su kodu ehitatud on?
             </Typography>
             <Slider 
