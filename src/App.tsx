@@ -11,7 +11,7 @@ function App() {
   const [area, setArea] = useState(0)
   const [constructionYear, setConstructionYear] = useState<number>(1960)
 
-  const calculateIcons = () => {
+  const calculateIcons = (power: number) => {
     let yearFactor;
 
     switch (true) {
@@ -39,12 +39,15 @@ function App() {
       default:
         yearFactor = 185;
     }
-    const icons = Math.max(Math.ceil(((area * yearFactor)/365)), 0);
+    const icons = Math.max(Math.ceil(((area * yearFactor)/365/power)), 0);
     console.log(icons)
     return icons;
   }
 
-  const iconCount = calculateIcons();
+  const iconCount = calculateIcons(100.8);
+  const halogenCount = calculateIcons(0.054*24);
+  const chickenCount = calculateIcons(0.015*24);
+  const cowCount = calculateIcons(3);
 
   return (
 
@@ -79,7 +82,7 @@ function App() {
               }}
             >
               <Typography variant="subtitle1" gutterBottom>
-                Kui suur su kodu on?
+                Kui suur ehitis on?
               </Typography>
               <Box
                 sx={{
@@ -105,7 +108,7 @@ function App() {
 
             <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', alignSelf: 'center' }}>
               <Typography variant="subtitle1" gutterBottom sx={{ mb: 4 }}>
-                Mis aastal su kodu ehitatud on?
+                Mis aastal ehitatud?
               </Typography>
               <Slider
                 min={1920}
@@ -132,7 +135,14 @@ function App() {
                 </Grid>
               ))}
             </Grid>
-              {`Sul läheb vaja täpselt ${iconCount} racki!`}
+            {iconCount != 0 && <Box>
+              {`Sul läheb vaja täpselt ${iconCount} keskmist serveritorni või`}<br />
+              {`${halogenCount} halogeenpirni või`}<br />
+              {`${chickenCount} kana või`}<br />
+              {`${cowCount} lehma`}<br />
+              {`(ca 300l metaani per lehm ööpäevas).`}<br />
+            </Box>}
+              
           </Stack>
         </Box>
       </body>
