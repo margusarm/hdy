@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 //import logo from './logo.svg';
 import logo from './greta_soon_big.png'
 import './App.css';
@@ -8,6 +8,43 @@ import StorageIcon from '@mui/icons-material/Storage';
 
 function App() {
 
+  const [area, setArea] = useState(0)
+  const [constructionYear, setConstructionYear] = useState<number>(1960)
+
+  const calculateIcons = () => {
+    let yearFactor;
+
+    switch (true) {
+      case constructionYear < 1960:
+        yearFactor = 190;
+        break;
+      case constructionYear < 1970:
+        yearFactor = 185;
+        break;
+      case constructionYear < 1980:
+        yearFactor = 175;
+        break;
+      case constructionYear < 1990:
+        yearFactor = 165;
+        break;
+      case constructionYear < 2000:
+        yearFactor = 175;
+        break;
+      case constructionYear < 2010:
+        yearFactor = 130;
+        break;
+      case constructionYear <= 2020:
+        yearFactor = 85;
+        break;
+      default:
+        yearFactor = 185;
+    }
+    const icons = Math.max(Math.ceil(((area * yearFactor)/365)), 0);
+    console.log(icons)
+    return icons;
+  }
+
+  const iconCount = calculateIcons();
 
   return (
 
@@ -54,10 +91,13 @@ function App() {
                 <Input
                   type='number'
                   id="pindala"
+                  value={area}
+                  onChange={(event) => setArea(Number(event.target.value))}
                   endAdornment={<InputAdornment position="end">m2</InputAdornment>}
                   aria-describedby="Sisesta pindala"
                   inputProps={{
                     'aria-label': 'pindala',
+                    min: 0,
                   }}
                 />
               </Box>
@@ -72,7 +112,9 @@ function App() {
                 max={2020}
                 step={10}
                 defaultValue={1960}
-                aria-label="Default"
+                value={constructionYear}
+                onChange={(event, newValue) => setConstructionYear(newValue as number)}
+                aria-label="Ehitusaasta"
                 valueLabelDisplay="on"
                 marks
               />
@@ -82,24 +124,15 @@ function App() {
               </Box>
             </Box>
 
-            <Button variant="contained" sx={{ alignSelf: 'center', width: '50%' }}>
-              Arvuta
-            </Button>
-            <Grid>
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
-              <StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon /><StorageIcon />
+            <Grid container spacing={1}>
+              
+              {[...Array(iconCount)].map((_, index) => (
+                <Grid key={index}>
+                  <StorageIcon />
+                </Grid>
+              ))}
             </Grid>
-
+              {`Sul läheb vaja täpselt ${iconCount} racki!`}
           </Stack>
         </Box>
       </body>
