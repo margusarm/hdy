@@ -8,10 +8,10 @@ import StorageIcon from '@mui/icons-material/Storage';
 
 function App() {
 
-  const [area, setArea] = useState(0)
+  const [area, setArea] = useState<number | null>(null)
   const [constructionYear, setConstructionYear] = useState<number>(1960)
 
-  const calculateIcons = (power: number) => {
+  const calculateQty = (power: number) => {
     let yearFactor;
 
     switch (true) {
@@ -39,15 +39,16 @@ function App() {
       default:
         yearFactor = 185;
     }
-    const icons = Math.max(Math.ceil(((area * yearFactor)/365/power)), 0);
+    const calc = area ? area : 0;
+    const icons = Math.max(Math.ceil(((calc * yearFactor)/365/power)), 0);
     console.log(icons)
     return icons;
   }
 
-  const iconCount = calculateIcons(100.8);
-  const halogenCount = calculateIcons(0.054*24);
-  const chickenCount = calculateIcons(0.015*24);
-  const cowCount = calculateIcons(3);
+  const iconCount = calculateQty(100.8);
+  const halogenCount = calculateQty(0.054*24);
+  const chickenCount = calculateQty(0.015*24);
+  const cowCount = calculateQty(3);
 
   return (
 
@@ -95,7 +96,11 @@ function App() {
                   type='number'
                   id="pindala"
                   value={area}
-                  onChange={(event) => setArea(Number(event.target.value))}
+                  onChange={
+                  (event) => {const newValue = event.target.value.replace(/^0/, ''); // Remove non-digit characters
+                    setArea(newValue === '' ? null : Number(newValue));}
+                  
+                  }
                   endAdornment={<InputAdornment position="end">m2</InputAdornment>}
                   aria-describedby="Sisesta pindala"
                   inputProps={{
