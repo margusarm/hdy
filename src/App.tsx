@@ -92,7 +92,7 @@ function App() {
                 }}
               >
                 <Typography variant="subtitle1" gutterBottom>
-                Kui suur ehitis on?
+                Mitu ruutmeetrit on ehitis?
               </Typography>
                 <Slider 
                 min={10}
@@ -182,7 +182,7 @@ function App() {
               ))}
             </Grid>
             {iconCount != 0 && <Box>
-              {`Sul läheb vaja täpselt ${iconCount} keskmist serverit`}<br />
+              {`Sul läheb vaja ${iconCount} keskmist serverit`}<br />
               {ownSwitch && <Box>
                 {`või ${ownHeaterCount} ${ownHeaterName}`}
               </Box>}
