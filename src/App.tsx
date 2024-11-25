@@ -8,7 +8,7 @@ import StorageIcon from '@mui/icons-material/Storage';
 
 function App() {
 
-  const [area, setArea] = useState<number | null>(null)
+  const [area, setArea] = useState<number | null>(10)
   const [constructionYear, setConstructionYear] = useState<number>(1960)
   const [ownPower, setOwnpower] = useState<number | null>(null)
   const [ownHeaterName, setOwnHeaterName] = useState<string | undefined>(undefined)
@@ -50,7 +50,7 @@ function App() {
     return icons;
   }
 
-  const iconCount = calculateQty(4200);
+  const iconCount = calculateQty(420);
   const halogenCount = calculateQty(54);
   const chickenCount = calculateQty(15);
   const cowCount = calculateQty(3000);
@@ -81,45 +81,29 @@ function App() {
               width: '100%', // Full width on smaller screens
             }}
           >
-            <FormControl
-              variant="standard"
-              sx={{
-                m: 1,
-                width: '100%',
-                maxWidth: '200px', // Limit width on larger screens
-                alignSelf: 'center', // Center in the stack
-              }}
-            >
-              <Typography variant="subtitle1" gutterBottom>
-                Kui suur ehitis on?
-              </Typography>
+
+              
               <Box
                 sx={{
-                  maxWidth: 100,
+                  width: '100%',
+                  maxWidth: 400,
+                  mx: 'auto',
                   alignSelf: 'center'
                 }}
               >
-
-                <Input
-                  type='number'
-                  id="pindala"
-                  value={area}
-                  onChange={
-                    (event) => {
-                      const newValue = event.target.value.replace(/^0/, ''); // Remove non-digit characters
-                      setArea(newValue === '' ? null : Number(newValue));
-                    }
-
-                  }
-                  endAdornment={<InputAdornment position="end">m2</InputAdornment>}
-                  aria-describedby="Sisesta pindala"
-                  inputProps={{
-                    'aria-label': 'pindala',
-                    min: 0,
-                  }}
+                <Typography variant="subtitle1" gutterBottom>
+                Kui suur ehitis on?
+              </Typography>
+                <Slider 
+                min={10}
+                max={250}
+                step={5}
+                value={area as number}
+                onChange={(event,newValue) => setArea(newValue as number)}
+                valueLabelDisplay='on'
+                //marks
                 />
               </Box>
-            </FormControl>
 
             <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', alignSelf: 'center' }}>
               <Typography variant="subtitle1" gutterBottom sx={{ mb: 4 }}>
@@ -198,10 +182,7 @@ function App() {
               ))}
             </Grid>
             {iconCount != 0 && <Box>
-              {`Sul läheb vaja täpselt ${iconCount} keskmist serveritorni`}<br />
-              {`või ${halogenCount} halogeenpirni`}<br />
-              {`või ${chickenCount} kana`}<br />
-              {`või ${cowCount} lehma`}<br />
+              {`Sul läheb vaja täpselt ${iconCount} keskmist serverit`}<br />
               {ownSwitch && <Box>
                 {`või ${ownHeaterCount} ${ownHeaterName}`}
               </Box>}
