@@ -91,7 +91,7 @@ function App() {
                   alignSelf: 'center'
                 }}
               >
-                <Typography variant="subtitle1" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom sx={{mb: 4}}>
                 Mitu ruutmeetrit on ehitis?
               </Typography>
                 <Slider 
@@ -131,7 +131,7 @@ function App() {
                 checked={ownSwitch}
                 onChange={(event) => setOwnSwitchChecked(event.target.checked)}
                 />
-              } label="Lisa oma kütte-elemendi"
+              } label="Lisa oma kütte-element"
               />
             </Box>
               {ownSwitch && <Box>
