@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-//import logo from './logo.svg';
-import logo from './greta_soon_big.png'
+import { useState } from 'react';
+//import logo from './greta_soon_big.png'
 import './App.css';
 import Box from '@mui/material/Box';
-import { Button, FilledInput, FormControl, FormControlLabel, FormHelperText, Grid2 as Grid, Input, InputAdornment, OutlinedInput, Slider, Stack, Switch, TextField, Typography } from '@mui/material';
+import { FormControlLabel, Grid2 as Grid, Input, InputAdornment, Slider, Stack, Switch, Typography } from '@mui/material';
 import StorageIcon from '@mui/icons-material/Storage';
 
 function App() {
 
   const [area, setArea] = useState<number | null>(10)
   const [constructionYear, setConstructionYear] = useState<number>(1960)
-  const [ownPower, setOwnpower] = useState<number | null>(null)
-  const [ownHeaterName, setOwnHeaterName] = useState<string | undefined>(undefined)
+  const [ownPower, setOwnpower] = useState<number | null>(0)
+  const [ownHeaterName, setOwnHeaterName] = useState<string | undefined>('')
   const [ownSwitch, setOwnSwitchChecked] = useState<boolean>(false);
 
-  const calculateQty = (power: number | null) => {
+  const calculateQty = (power: number | null): number | string => {
     let yearFactor;
 
     switch (true) {
@@ -47,20 +46,18 @@ function App() {
 
     const icons = Math.max(Math.ceil(((calcArea * yearFactor) / 365 / calcPower)), 0);
     console.log(icons)
-    return icons;
+    return icons !== Infinity ? icons : '\u221E';
   }
 
   const iconCount = calculateQty(420);
-  const halogenCount = calculateQty(54);
-  const chickenCount = calculateQty(15);
-  const cowCount = calculateQty(3000);
   const ownHeaterCount = calculateQty(ownPower)
 
   return (
 
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/*<img src={logo} className="App-logo" alt="logo" />*/}
+        Kodud soojaks serveritega
       </header>
       <body>
         <Box
@@ -82,28 +79,28 @@ function App() {
             }}
           >
 
-              
-              <Box
-                sx={{
-                  width: '100%',
-                  maxWidth: 400,
-                  mx: 'auto',
-                  alignSelf: 'center'
-                }}
-              >
-                <Typography variant="subtitle1" gutterBottom sx={{mb: 4}}>
+
+            <Box
+              sx={{
+                width: '100%',
+                maxWidth: 400,
+                mx: 'auto',
+                alignSelf: 'center'
+              }}
+            >
+              <Typography variant="subtitle1" gutterBottom sx={{ mb: 4 }}>
                 Mitu ruutmeetrit on ehitis?
               </Typography>
-                <Slider 
+              <Slider
                 min={10}
                 max={250}
                 step={5}
                 value={area as number}
-                onChange={(event,newValue) => setArea(newValue as number)}
+                onChange={(event, newValue) => setArea(newValue as number)}
                 valueLabelDisplay='on'
-                //marks
-                />
-              </Box>
+              //marks
+              />
+            </Box>
 
             <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', alignSelf: 'center' }}>
               <Typography variant="subtitle1" gutterBottom sx={{ mb: 4 }}>
@@ -128,13 +125,13 @@ function App() {
             <Box sx={{ alignSelf: 'center' }}>
               <FormControlLabel control={
                 <Switch
-                checked={ownSwitch}
-                onChange={(event) => setOwnSwitchChecked(event.target.checked)}
+                  checked={ownSwitch}
+                  onChange={(event) => setOwnSwitchChecked(event.target.checked)}
                 />
               } label="Lisa oma kütte-element"
               />
             </Box>
-              {ownSwitch && <Box>
+            {ownSwitch && <Box>
               <Input
                 id="omaküte"
                 value={ownHeaterName}
@@ -171,7 +168,7 @@ function App() {
                 }}
               />
             </Box>}
-            
+
 
             <Grid container spacing={1}>
 
@@ -181,14 +178,13 @@ function App() {
                 </Grid>
               ))}
             </Grid>
-            {iconCount != 0 && <Box>
+            {iconCount !== 0 && <Box>
               {`Sul läheb vaja ${iconCount} keskmist serverit`}<br />
-              {ownSwitch && <Box>
-                {`või ${ownHeaterCount} ${ownHeaterName}`}
+              {ownSwitch && <Box><p>
+                {`või kui sul on kütte-elemendiks ${ownHeaterName !== "" ? ownHeaterName : "_______"} võimsusega ${ownPower}w,`}<br />
+                {`siis läheb sul neid vaja ${ownHeaterCount} tk`}
+              </p>
               </Box>}
-              
-
-
             </Box>}
 
           </Stack>
